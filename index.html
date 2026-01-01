@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Advanced HTML Runner</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --bg:#f2f2f2;
+  --text:#000;
+  --box:#fff;
+  --btn:#4CAF50;
+}
+.dark{
+  --bg:#121212;
+  --text:#fff;
+  --box:#1e1e1e;
+  --btn:#2196F3;
+}
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+header{
+  padding:10px;
+  text-align:center;
+  font-weight:bold;
+  font-size:18px;
+}
+.tabs{
+  display:flex;
+}
+.tabs button{
+  flex:1;
+  padding:10px;
+  border:none;
+  background:#ddd;
+}
+.editor{
+  display:none;
+}
+.editor.active{
+  display:block;
+}
+textarea{
+  width:100%;
+  height:180px;
+  padding:10px;
+  box-sizing:border-box;
+  background:var(--box);
+  color:var(--text);
+  border:none;
+}
+.controls{
+  display:flex;
+  gap:5px;
+  padding:10px;
+}
+.controls button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:4px;
+  background:var(--btn);
+  color:white;
+}
+iframe{
+  width:100%;
+  height:250px;
+  border:none;
+  background:white;
+}
+</style>
+</head>
+
+<body>
+
+<header>🔥 My Advanced HTML Runner</header>
+
+<div class="tabs">
+  <button onclick="openTab('html')">HTML</button>
+  <button onclick="openTab('css')">CSS</button>
+  <button onclick="openTab('js')">JS</button>
+</div>
+
+<div id="html" class="editor active">
+<textarea id="htmlCode">
+<h1>Hello Game World</h1>
+<button onclick="alert('Game Started')">Start</button>
+</textarea>
+</div>
+
+<div id="css" class="editor">
+<textarea id="cssCode">
+body{background:lightgreen;text-align:center;}
+button{font-size:20px;}
+</textarea>
+</div>
+
+<div id="js" class="editor">
+<textarea id="jsCode">
+console.log("Game Ready");
+</textarea>
+</div>
+
+<div class="controls">
+  <button onclick="runCode()">▶ Run</button>
+  <button onclick="saveCode()">💾 Save</button>
+  <button onclick="toggleDark()">🌙 Dark</button>
+  <button onclick="share()">🔗 Share</button>
+</div>
+
+<iframe id="output"></iframe>
+
+<script>
+function openTab(tab){
+  document.querySelectorAll('.editor').forEach(e=>e.classList.remove('active'));
+  document.getElementById(tab).classList.add('active');
+}
+
+function runCode(){
+  let html = document.getElementById("htmlCode").value;
+  let css = "<style>"+document.getElementById("cssCode").value+"</style>";
+  let js = "<script>"+document.getElementById("jsCode").value+"<\/script>";
+  document.getElementById("output").srcdoc = html + css + js;
+}
+
+function saveCode(){
+  localStorage.setItem("html",htmlCode.value);
+  localStorage.setItem("css",cssCode.value);
+  localStorage.setItem("js",jsCode.value);
+  alert("Code Saved!");
+}
+
+function loadCode(){
+  htmlCode.value = localStorage.getItem("html") || htmlCode.value;
+  cssCode.value = localStorage.getItem("css") || cssCode.value;
+  jsCode.value = localStorage.getItem("js") || jsCode.value;
+}
+loadCode();
+
+function toggleDark(){
+  document.body.classList.toggle("dark");
+}
+
+function share(){
+  navigator.clipboard.writeText(location.href);
+  alert("Link Copied!");
+}
+</script>
+
+</body>
+</html>
